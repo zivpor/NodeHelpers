@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,18 +109,29 @@ namespace NodeClass
         {
            throw new NotImplementedException("To Do"); 
         }
-        public static Node<int> CreateIntList()
+        public static Node<int> CreateIntList(int from, int to, int quantity)
         {
-            Node<int> head = null;
-            const int END = -1;
+            Random rnd = new Random();
+            Node<int> head=new Node<int>(rnd.Next(from,to+1));
+            //#region Add To Tail
+            //Node<int> tail = head;
+            //for(int i=2;i<=quantity;i++)
+            //{
+            //    Node<int> toInsert = new Node<int>(rnd.Next(from, to + 1));
+            //    tail.SetNext(toInsert);
+            //    tail=tail.GetNext(); 
+            //}
+            //#endregion
 
-            Console.WriteLine("Please enter first value or -1 to END");
-            int value = int.Parse(Console.ReadLine());
-            while (value != END)
-            {
-              //ToDo
-            }
-            return head;
+            #region Add To Head
+            for (int i = 2; i <= quantity; i++)
+                head = new Node<int>(rnd.Next(from, to + 1), head);
+
+                #endregion
+
+                return head;
+
+
         }
         public static Node<int> CreateRecursiveList(Node<int> ls)
         {
