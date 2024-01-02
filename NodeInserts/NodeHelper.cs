@@ -133,7 +133,7 @@ namespace NodeClass
 
 
         }
-        public static Node<int> CreateRecursiveList(Node<int> ls)
+        public static Node<int> CreateRecursiveList(Node<int> ls,int from,int to, int count)
         {
             throw new NotImplementedException("To Do"); 
         }
