@@ -251,5 +251,76 @@ namespace NodeClass
 
         #endregion
 
+        #region כפילויות
+
+        public static int CountNoOfDuplication(Node<int> head, int x)
+        {
+            //אם הרשימה ריקה
+            if (head == null)
+                return 0;
+            //ניצור מונה
+            int count = 0;
+            //כל עוד יש איברים ברשימה
+            while (head != null)
+            {
+                //נחפש את המופע  הראשון של 
+                //x
+                while (head != null && head.GetValue() != x)
+                {
+                    head = head.GetNext();
+                }
+                //אם לא הגענו לסוף הרשימה
+                if (head != null)
+                {
+                    count++; //מצאנו רצף
+                             //נדלג על הרצף
+                    while (head.HasNext() && head.GetNext().GetValue() == x)
+                    {
+                        head = head.GetNext();
+                    }
+                    //נעצור 
+                    //או כשהבא הוא כבר חוליה לא על הרצף
+                    //או שאנחנו ברצף אבל הגענו לחוליה האחרונה
+
+                    head = head.GetNext();
+                }
+            }
+            return count;
+        }
+        public static int CountNoOfDuplicationV2(Node<int> head, int x)
+        {
+            //ניצור חוליה ראשונה פיקטיבית
+            Node<int> dummy = new Node<int>(0, head);
+            //ניצור 2 מצביעים לנוכחי ולבא
+            Node<int> current = dummy;
+            Node<int> next = current.GetNext();
+            int counter = 0;
+            //כל עוד יש חוליות אמיתיות
+            while (next != null)
+            {
+                //אם החוליה היא רצף
+                if (next.GetValue() == x)
+                {
+                    counter++;//נוסיף לרצף
+
+                    //נדלג על כל הרצף
+                    next = next.GetNext();
+                    while (next != null && next.GetValue() == x)
+                        next = next.GetNext();
+                    //נצא מהלולאה או כשהגענו לסוף
+                    //או כשהגענו לחוליה ששונה מהערך
+                }
+                //אם החוליה אינה ברצף נמשיך בשרשרת
+                else
+                {
+                    current = next;//נמשיך מהנקודה הנוכחית
+                    next = current.GetNext();
+                }
+
+            }
+            return counter;
+        }
+        #endregion
+
     }
 }
