@@ -142,6 +142,74 @@ namespace NodeClass
 
         #region Delete
 
+        public static Node<T> DeleteWithDummy<T>(Node<T> list,T val)
+        {
+            Node<T> dummy = new Node<T>(default(T), list);
+
+            Node<T> next = dummy.GetNext();
+            Node<T> current = dummy;
+            while (next != null && !next.GetValue().Equals(val))
+            {
+                current = current.GetNext();
+                next = current.GetNext();
+            }
+            //מצאתי את הערך!!!!
+            if (next != null)
+            {
+                current.SetNext(next.GetNext());
+                next.SetNext(null);
+
+
+            }
+            return dummy.GetNext();
+        }
+        /// <summary>
+        /// פעולה שמוחקת את החוליה שיש את הערך 
+        /// val
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static Node<T> Delete<T>(Node<T> list,  T val)
+        {
+            //לא לשכוח לשמור על הראש
+            Node<T> head = list;
+            //יש מאיפה למחוק
+            if (list != null)
+            {
+                //נבדוק האם הערך נמצא בחוליה הראשונה
+                if(list.GetValue().Equals(val))
+                {
+                    //נעדכן ראש חדש
+                    head = list.GetNext();
+                    //ננתק את הראש הישן
+                    list.SetNext(null);
+                }
+                //הערך נמצא בחוליה בהמשך
+                else
+                {
+                    //נחפש את החוליה שמכילה את הערך
+
+                    //while(list.HasNext()&&!list.GetNext().GetValue().Equals(val))
+                    Node<T> next=list.GetNext();
+                    while (next != null && !next.GetValue().Equals(val))
+                    {
+                        list = list.GetNext();
+                        next = list.GetNext();
+                    }
+                    //מצאתי את הערך!!!!
+                    if(next!=null)
+                    {
+                        list.SetNext(next.GetNext());
+                        next.SetNext(null);
+
+
+                    }
+                }
+            }
+             return head;
+        }
         /// <summary>
         /// פעולה המוחקת את החוליה העוקבת
         /// </summary>
