@@ -225,28 +225,70 @@ namespace NodeClass
 
         #region Excercises
 
-        public static Node<char> Reverse(Node<char> text)
+        public static Node<T> Reverse<T>(Node<T> lst)
         {
+            #region לשמור על הראש
+            //האם יש ראש חדש/סריקה חוזרת?
+            Node<T> head = lst;
+            Node<T> tail = lst;
+            #endregion
 
-            throw new NotImplementedException();
-           
-           
+            #region לא ליפול בנאל
+            if (lst == null)
+                return null;
+            //האם בודקים רק ערך של חוליה אחת או של שתיים?
+            while(tail.HasNext())
+            {
+            #region להעזר בחברים
+            //במחיקה והוספה כדאי להעזר משתנים שמצביעים על הקודם ועל זה שנוסיף/נמחק
+            Node<T> next=tail.GetNext();
+                tail.SetNext(next.GetNext());
+                next.SetNext(head);
+                head = next;
+
+            #endregion
+
+            }
+
+
+            #endregion
+            return head;
+            
         }
 
-        public static Node<char> ReverseWithDummy(Node<char>text)
+        public static Node<T> ReverseWithDummy<T>(Node<T>lst)
         {
 
+            //ניצור חוליה פיקטיבית
+            Node<T> dummy = new Node<T>(default(T), lst);
+            
+            while(lst.HasNext())
+            {
+                //נעזר בחבר שיצביע על החוליה שיש לנתק
+                Node<T> nxt = lst.GetNext();
+                
+                lst.SetNext(nxt.GetNext());//ננתק מצד שמאל
+                nxt.SetNext(dummy.GetNext());//נחבר/ננתק מצד ימין
+                dummy.SetNext(nxt);//נחבר את הראש החדש
+            }
+            
+            //נגיע לשורה זו כשהראש הישן הגיע לסוף
+            return dummy.GetNext();//נחזיר את הראש המעודכן
 
-            throw new NotImplementedException();
         }
 
-
-
-
-        public static bool IsEqual<X>(Node<X> ls1, Node<X>ls2)
+        public static bool IsEqual<X>(Node<X> ls1, Node<X> ls2)
         {
-           throw new NotImplementedException("To do");               
-
+            while (ls1 != null && ls2 != null)
+            {
+                if (!ls1.GetValue().Equals(ls2.GetValue()))
+                    return false;
+                ls1 = ls1.GetNext();
+                ls2 = ls2.GetNext();
+            }
+            //יחזיר אמת אם שתי הרשימות הגיעו לסוף
+            //ושקר אחרת
+            return (ls1 == null && ls2 == null);
         }
 
         #endregion
@@ -319,6 +361,44 @@ namespace NodeClass
 
             }
             return counter;
+        }
+        #endregion
+
+        #region מיזוג
+        public static Node<int> Merge(Node<int> ls1, Node<int>ls2)
+        {
+            //ראש החוליה הממוזגת הוא הערך של החוליה הראשונה מהשרשרת הראשונה
+            Node<int> result = new Node<int>(ls1.GetValue());
+            //נעזר בהכנסה לסוף
+            Node<int> tail = result;
+            //נקדם לחוליה הבאה בשרשרת שכבר טיפלנו
+            ls1 = ls1.GetNext();
+            //כל עוד יש חוליות באחת מהשרשראות
+            while(ls1!=null&&ls2!=null)
+            {
+                
+                tail.SetNext(new Node<int>(ls2.GetValue()));//נטפל בחוליה השניה
+                tail =tail.GetNext();//נקדם את הזנב
+                tail.SetNext(new Node<int>(ls1.GetValue()));//נכניס מהחוליה הראשונה
+                tail = tail.GetNext();//נקדם את הזנב
+                //נקדם את הרשימות
+                ls1=ls1.GetNext();
+                ls2= ls2.GetNext(); 
+            }
+            //אם נשארו חוליות- נכניס לסוף
+            while(ls1!=null)
+            {
+                tail.SetNext(new Node<int>(ls1.GetValue()));
+                tail =tail.GetNext();
+                ls1=ls1.GetNext();
+            }
+            while (ls2 != null)
+            {
+                tail.SetNext(new Node<int>(ls2.GetValue()));
+                tail = tail.GetNext();
+                ls2 = ls2.GetNext();
+            }
+            return result;
         }
         #endregion
 
