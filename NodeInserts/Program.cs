@@ -32,6 +32,21 @@ namespace NodeInserts
             }
             return head;
         }
+        //דומינו: עמוד 99 שאלה 48
+        public static int HowManyCanStick(Node<Domino> dominos,Domino domino)
+        {
+            int stickCounter = 0;
+            if (domino.GetNum1 == dominos.GetValue().GetNum1 || domino.GetNum2 == dominos.GetValue().GetNum1)
+            {
+                stickCounter++;
+                dominos=dominos.GetNext();
+            }
+            while (dominos != null) 
+            {
+                
+            }
+            
+        }
         static void Main(string[] args)
         {
             Node<ShabatRecievers> shabatShalom = new Node<ShabatRecievers>(new ShabatRecievers("Shiri","Shira",18,1,2024));
